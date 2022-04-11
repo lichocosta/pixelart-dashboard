@@ -12,7 +12,7 @@ Además cuenta con un reproductor de audio con la canción "I'll be over you" de
 
 HTML, CSS, JavaScript y Bootstrap.
 
-PD: no olvides de presionar F11 verlo en full screen.
+PD: no olvides de presionar F11 para verlo en full screen.
 
 APIs:
     [Open Weather Map](https://openweathermap.org/).
