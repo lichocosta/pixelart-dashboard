@@ -1,63 +1,55 @@
-(function () {
-  var actualizarHora = function () {
-    var fecha = new Date(),
-      horas = fecha.getHours(),
-      ampm,
-      minutos = fecha.getMinutes(),
-      segundos = fecha.getSeconds(),
-      diaSemana = fecha.getDay(),
-      dia = fecha.getDate(),
-      mes = fecha.getMonth(),
-      year = fecha.getFullYear();
+//WATCH
+function actualizarHora() {
+  let fecha = new Date();
+  let horas = fecha.getHours();
+  let minutos = fecha.getMinutes();
+  let segundos = fecha.getSeconds();
+  let diaSemana = fecha.getDay();
+  let dia = fecha.getDate();
+  let mes = fecha.getMonth();
+  let year = fecha.getFullYear();
+  let ampm;
 
-    var pHoras = document.getElementById('horas'),
-      pAMPM = document.getElementById('ampm'),
-      pMinutos = document.getElementById('minutos'),
-      pSegundos = document.getElementById('segundos'),
-      pDiaSemana = document.getElementById('diaSemana'),
-      pDia = document.getElementById('dia'),
-      pMes = document.getElementById('mes'),
-      pYear = document.getElementById('year');
+  let time = document.getElementById('time');
+  let pAMPM = document.getElementById('ampm');
+  let pDiaSemana = document.getElementById('diaSemana');
+  let pDia = document.getElementById('dia');
+  let pMes = document.getElementById('mes');
+  let pYear = document.getElementById('year');
+  
+  if (horas < 10) { horas = "0" + horas };
+  if (minutos < 10) { minutos = "0" + minutos };
+  if (segundos < 10) { segundos = "0" + segundos };
+  if (horas == 0) { horas = 12 };
+  
+  time.innerHTML = horas + ":" + minutos + ":" + segundos;
 
-    var semana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-    pDiaSemana.textContent = semana[diaSemana];
+  const semana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  pDiaSemana.textContent = semana[diaSemana];
 
-    pDia.textContent = dia;
+  pDia.textContent = dia;
 
-    var meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-    pMes.textContent = meses[mes];
+  const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  pMes.textContent = meses[mes];
 
-    pYear.textContent = year;
+  pYear.textContent = year;
 
-    if (horas >= 12) {
-      horas = horas - 12;
-      ampm = 'PM';
-    } else {
-      ampm = 'AM';
-    }
+  if (horas >= 12) {
+    horas = horas - 12;
+    ampm = 'PM';
+  } else {
+    ampm = 'AM';
+  }
 
-    if (horas == 0) {
-      horas = 12;
-    }
-
-    pHoras.textContent = horas;
-    pAMPM.textContent = ampm;
-    
-    if (minutos < 10) { minutos = "0" + minutos };
-    if (segundos < 10) { segundos = "0" + segundos };
-
-    pMinutos.textContent = minutos;
-    pSegundos.textContent = segundos;
-
-  };
-
-  actualizarHora();
-  var intervalo = setInterval(actualizarHora, 1000);
-
-}())
+  pAMPM.textContent = ampm;
+};
+actualizarHora();
+setInterval(actualizarHora, 1000);
 
 //API WEATHER
 window.addEventListener('load', () => {
+  if (!navigator.geolocation) return
+
   let longitude;
   let latitude;
   const temperatureValue = document.getElementById('temp-value');
@@ -66,71 +58,50 @@ window.addEventListener('load', () => {
   const humidityValue = document.getElementById('humidity-value');
   const windVelocity = document.getElementById('wind-velocity');
 
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(position => {
-      longitude = position.coords.longitude;
-      latitude = position.coords.latitude;
+  navigator.geolocation.getCurrentPosition(async position => {
+    longitude = position.coords.longitude;
+    latitude = position.coords.latitude;
 
-      const urlWeatherAPI = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&units=metric&exclude=alerts,daily,hourly,minutely&lang=es&appid=5170bb1c3a65ed75051a8ae14b60ee1b`;
+    const urlWeatherAPI = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&units=metric&exclude=alerts,daily,hourly,minutely&lang=es&appid=5170bb1c3a65ed75051a8ae14b60ee1b`;
 
-      console.log(urlWeatherAPI);
+    try {
+      const response = await fetch(urlWeatherAPI)
+      const data = await response.json()
 
-      fetch(urlWeatherAPI)
-        .then(response => { return response.json() })
-        .then(data => {
-          console.log(data);
-          let temperature = Math.round(data.current.temp)
-          temperatureValue.textContent = `${temperature} °C`
+      let temperature = Math.round(data.current.temp)
+      temperatureValue.textContent = `${temperature} °C`
 
-          let description = data.current.weather[0].description
-          temperatureDescription.textContent = description.toUpperCase()
+      let description = data.current.weather[0].description
+      temperatureDescription.textContent = description.toUpperCase()
 
-          let humidity = Math.round(data.current.humidity)
-          humidityValue.textContent = `Humedad ${humidity} %`
+      let humidity = Math.round(data.current.humidity)
+      humidityValue.textContent = `Humedad ${humidity}%`
 
-          windVelocity.textContent = `Viento a ${data.current.wind_speed} m/s`
+      windVelocity.textContent = `Viento a ${data.current.wind_speed} m/s`
 
-          switch (data.current.weather[0].main) {
-            case 'Thunderstorm':
-              animatedIcon.src = 'animated/thunder.svg'
-              break;
-            case 'Drizzle':
-              animatedIcon.src = 'animated/rainy-2.svg'
-              break;
-            case 'Rain':
-              animatedIcon.src = 'animated/rainy-7.svg'
-              break;
-            case 'Snow':
-              animatedIcon.src = 'animated/snowy-6.svg'
-              break;
-            case 'Clear':
-              animatedIcon.src = 'animated/day.svg'
-              break;
-            case 'Atmosphere':
-              animatedIcon.src = 'animated/weather.svg'
-              break;
-            case 'Clouds':
-              animatedIcon.src = 'animated/cloudy-day-1.svg'
-              break;
-            default:
-              animatedIcon.src = 'animated/cloudy-day-1.svg'
-          }
+      const weatherIcons = {
+        'Thunderstorm': 'animated/thunder.svg',
+        'Drizzle': 'animated/rainy-2.svg',
+        'Rain': 'animated/rainy-7.svg',
+        'Snow': 'animated/snowy-6.svg',
+        'Clear': 'animated/day.svg',
+        'Atmosphere': 'animated/weather.svg',
+        'Clouds': 'animated/cloudy-day-1.svg',
+      }
 
-        })
-        .catch(error => {
-          console.log(error);
-        })
-    })
-  }
+      animatedIcon.src = weatherIcons[data.current.weather[0].main]
+
+    } catch (error) {
+      console.log(error);
+    }
+  })
 })
 
+//API CRYPTO
 const cryptoContainer = document.getElementById('crypto-container');
 const rankingCrypto = async () => {
   try {
-    const answerCryptoAPI = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=5&page=1&sparkline=false`);;
-
-    console.log(answerCryptoAPI);
-
+    const answerCryptoAPI = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=5&page=1&sparkline=false`);
 
     const errorMessages = {
       401: "Pusiste mal la key",
@@ -143,22 +114,20 @@ const rankingCrypto = async () => {
 
     const DATA_API = await answerCryptoAPI.json();
 
-    console.log(DATA_API);
-
     let cryptoInformation = '';
 
     DATA_API.forEach(coin => {
 
       cryptoInformation +=
         `   
-          <div class="mb-3">
-              <div class="d-flex align-items-center justify-content-center">
-                  <img style="height:20px;width:20px;" src="${coin.image}" alt="${coin.name}" class="me-2">
-                  <span class="">${coin.name}</span>
-              </div>
-              <div class="container-title">
-                  <span class="titulo">U$D${coin.current_price.toFixed(2)}</span>
-              </div>
+          <div class="">
+            <div class="d-flex align-items-center justify-content-center">
+              <img height="20" width="20" src="${coin.image}" alt="${coin.name}" class="me-2">
+              <span>${coin.name}</span>
+            </div>
+            <div>
+              <span>U$D ${coin.current_price.toFixed(4)}</span>
+            </div>
           </div>    
         `;
     });
@@ -169,5 +138,4 @@ const rankingCrypto = async () => {
     console.log(error);
   }
 }
-
 rankingCrypto();

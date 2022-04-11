@@ -12,45 +12,56 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap" rel="stylesheet">
-  <link rel="icon" href="/imgs/7179021.jpg" type="image/x-icon">
+  <link rel="icon" href="imgs/9.png" type="image/x-icon">
   <link rel="stylesheet" href="styles.css">
 </head>
+
+<!-- 
+  ⊂_ヽ
+　 ＼＼ Λ＿Λ
+　　 ＼( 'ω' )    Hellooo
+　　　 >　⌒ヽ      
+　　　/ 　 へ＼
+　　 /　　/　＼＼
+　　 ﾚ　ノ　　 ヽ_つ
+　　/　/
+　 /　/|
+　(　(ヽ
+　|　|、＼
+　| 丿 ＼ ⌒)
+　| |　　) /
+'ノ )　　Lﾉ
+ -->
 
 <body>
     
   <article class="watch">
-    <div class="time d-flex align-items-center justify-content-center">
-      <span id="horas" class="horas"></span>
-      <span>:</span>
-      <span id="minutos" class="minutos"></span>
-      <span>:</span>
-      <div class="d-flex flex-column fs-6">
-        <span id="ampm" class="ampm"></span>
-        <span id="segundos" class="segundos"></span>
-      </div>
+    <div class="time d-flex align-items-center">
+      <span id="time"></span>
+      <span id="ampm"></span>
     </div>
 
     <div class="date">
-      <span id="diaSemana" class="diaSemana"></span>
-      <span id="dia" class="dia"></span>
+      <span id="diaSemana"></span>
+      <span id="dia"></span>
       <span>de</span>
-      <span id="mes" class="mes"></span>
+      <span id="mes"></span>
       <span>del</span>
-      <span id="year" class="year"></span>
+      <span id="year"></span>
     </div>
   </article>
 
-  <article class="weather">
-    <div class="d-flex flex-column">
-      <img id="animated-icon" src="" alt="" height="50" width="50">
-      <small class="text-wrap" id="temp-description"></small>
+  <article class="weather d-flex align-items-center justify-content-center">
+    <div class="d-flex flex-column align-items-center">
+      <img id="animated-icon" alt="Clima" height="50" width="50">
+      <small class="text-wrap" id="temp-description">Cargando</small>
     </div>
     <div class="px-3">
-      <h1 class="mb-0" id="temp-value"></h1>
+      <h1 class="mb-0" id="temp-value">...°C</h1>
     </div>
     <div class="">
-      <h6 class="mt-2" id="wind-velocity"></h6>
-      <h6 id="humidity-value"></h6>
+      <h6 class="mt-2" id="wind-velocity">Cargando...</h6>
+      <h6 id="humidity-value">Cargando...</h6>
     </div>
   </article>
 
@@ -58,16 +69,12 @@
 
   </article>
 
-  <article class="audio bg-transparent">
+  <article class="audio d-flex align-items-center justify-content-center">
     <audio loop controls>
       <source src="audio/ill-be over-you-Toto.mp3" type="audio/mpeg">
-      <source src="audio/songbird-KennyG.mp3" type="audio/mpeg">
       <small>Tu navegador no puede reproducir audio :(</small>
     </audio>
   </article>
-
-
-  <!-- <footer class="text-center"><a target="_blank" class="text-decoration-none link-light" href="https://lisandrocostamartorel.com.ar/">Lisandro Costa Martorel</a> ©</footer> -->
 
   <script src="/index.js"></script>
 </body>
