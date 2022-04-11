@@ -18,7 +18,7 @@ body::after {
   overflow: hidden;
   z-index: -1;
   content:
-    url(/imgs/1.jpg) url(/imgs/2.png) url(/imgs/3.jpg) url(/imgs/4.png) url(/imgs/5.png);
+    url("imgs/1.jpg") url("imgs/2.png") url("imgs/3.jpg") url("imgs/4.png") url("imgs/5.png");
 }
 
 body {
@@ -36,12 +36,12 @@ body {
 }
 
 @keyframes bgswap {
-  0% { background-image: url(/imgs/1.jpg); }
-  20% { background-image: url(/imgs/2.png); }
-  40% { background-image: url(/imgs/3.jpg); }
-  60% { background-image: url(/imgs/4.png); }
-  80% { background-image: url(/imgs/5.png); }
-  100% { background-image: url(/imgs/1.jpg); }
+  0% { background-image: url("imgs/1.jpg"); }
+  20% { background-image: url("imgs/2.png"); }
+  40% { background-image: url("imgs/3.jpg"); }
+  60% { background-image: url("imgs/4.png"); }
+  80% { background-image: url("imgs/5.png"); }
+  100% { background-image: url("imgs/1.jpg"); }
 }
 
 article {
