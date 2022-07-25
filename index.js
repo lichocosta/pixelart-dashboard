@@ -57,27 +57,31 @@ window.addEventListener('load', () => {
   const animatedIcon = document.getElementById('animated-icon');
   const humidityValue = document.getElementById('humidity-value');
   const windVelocity = document.getElementById('wind-velocity');
+  const cityName = document.getElementById('city-name');
 
   navigator.geolocation.getCurrentPosition(async position => {
     longitude = position.coords.longitude;
     latitude = position.coords.latitude;
 
-    const urlWeatherAPI = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&units=metric&exclude=alerts,daily,hourly,minutely&lang=es&appid=5170bb1c3a65ed75051a8ae14b60ee1b`;
-
+    const urlWeatherAPI = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&exclude=alerts,daily,hourly,minutely&lang=es&appid=5170bb1c3a65ed75051a8ae14b60ee1b`;
     try {
       const response = await fetch(urlWeatherAPI)
       const data = await response.json()
+      console.log(data);
 
-      let temperature = Math.round(data.current.temp)
+      let temperature = Math.round(data.main.temp)
       temperatureValue.textContent = `${temperature} °C`
 
-      let description = data.current.weather[0].description
+      let description = data.weather[0].description
       temperatureDescription.textContent = description.toUpperCase()
 
-      let humidity = Math.round(data.current.humidity)
+      let humidity = Math.round(data.main.humidity)
       humidityValue.textContent = `Humedad ${humidity}%`
 
-      windVelocity.textContent = `Viento a ${data.current.wind_speed} m/s`
+      let city = data.name
+      cityName.textContent = city.toUpperCase()
+
+      windVelocity.textContent = `Viento a ${data.wind.speed} m/s`
 
       const weatherIcons = {
         'Thunderstorm': 'animated/thunder.svg',
@@ -87,9 +91,10 @@ window.addEventListener('load', () => {
         'Clear': 'animated/day.svg',
         'Atmosphere': 'animated/weather.svg',
         'Clouds': 'animated/cloudy-day-1.svg',
+        'Mist': 'animated/mist.svg'
       }
 
-      animatedIcon.src = weatherIcons[data.current.weather[0].main]
+      animatedIcon.src = weatherIcons[data.weather[0].main]
 
     } catch (error) {
       console.log(error);
